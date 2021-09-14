@@ -1,0 +1,228 @@
+###############################################################################
+#
+# IAR ELF Linker V8.50.9.278/W32 for ARM                  20/May/2021  22:34:43
+# Copyright 2007-2020 IAR Systems AB.
+#
+#    Output file  =
+#        C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\Exe\Whack-A-Mole_code.out
+#    Map file     =
+#        C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\List\Whack-A-Mole_code.map
+#    Command line =
+#        -f C:\Users\asus\AppData\Local\Temp\EW2871.tmp
+#        (C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\Obj\DEC_TO_HEX.o
+#        C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\Obj\main.o
+#        --no_out_extension -o
+#        C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\Exe\Whack-A-Mole_code.out
+#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb
+#        --map
+#        C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\List\Whack-A-Mole_code.map
+#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\config\linker\TexasInstruments\TM4C123GH6.icf" --semihosting
+#        --entry __iar_program_start --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because some modules are built with
+size limitations (and not runtime checking), and --advanced_heap
+was not specified.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at address 0x0 { ro section .intvec };
+"P1":  place in [from 0x0 to 0x3'ffff] { ro };
+define block CSTACK with size = 4K, alignment = 8 { };
+define block HEAP with size = 8K, alignment = 8 { };
+"P2":  place in [from 0x2000'0000 to 0x2000'7fff] {
+          rw, block CSTACK, block HEAP };
+initialize by copy { rw };
+
+  Section            Kind         Address    Size  Object
+  -------            ----         -------    ----  ------
+"A0":                                        0x40
+  .intvec            ro code          0x0    0x40  vector_table_M.o [4]
+                                   - 0x40    0x40
+
+"P1":                                       0x3f4
+  .text              ro code         0x40   0x1d4  main.o [1]
+  .text              ro code        0x214    0x9c  rand.o [2]
+  .text              ro code        0x2b0    0x3e  DEC_TO_HEX.o [1]
+  .text              ro code        0x2ee    0x3a  zero_init3.o [4]
+  .text              ro code        0x328    0x2e  copy_init3.o [4]
+  .text              ro code        0x356     0x2  vector_table_M.o [4]
+  .text              ro code        0x358    0x28  data_init.o [4]
+  .text              ro code        0x380    0x22  fpinit_M.o [3]
+  .iar.init_table    const          0x3a4    0x24  - Linker created -
+  .text              ro code        0x3c8    0x1e  cmain.o [4]
+  .text              ro code        0x3e6     0x4  low_level_init.o [2]
+  .text              ro code        0x3ea     0x4  exit.o [2]
+  .text              ro code        0x3f0     0xa  cexit.o [4]
+  .text              ro code        0x3fc    0x14  exit.o [5]
+  .text              ro code        0x410    0x1c  cstartup_M.o [4]
+  Initializer bytes  const          0x42c     0x8  <for P2-1>
+  .rodata            const          0x434     0x0  zero_init3.o [4]
+  .rodata            const          0x434     0x0  copy_init3.o [4]
+                                  - 0x434   0x3f4
+
+"P2", part 1 of 3:                            0x8
+  P2-1                        0x2000'0000     0x8  <Init block>
+    .data            inited   0x2000'0000     0x8  rand.o [2]
+                            - 0x2000'0008     0x8
+
+"P2", part 2 of 3:                           0x8c
+  .bss               zero     0x2000'0008    0x84  rand.o [2]
+  .bss               zero     0x2000'008c     0x4  main.o [1]
+  .bss               zero     0x2000'0090     0x1  main.o [1]
+  .bss               zero     0x2000'0091     0x1  main.o [1]
+                            - 0x2000'0092    0x8a
+
+"P2", part 3 of 3:                         0x1000
+  CSTACK                      0x2000'0098  0x1000  <Block>
+    CSTACK           uninit   0x2000'0098  0x1000  <Block tail>
+                            - 0x2000'1098  0x1000
+
+Unused ranges:
+
+         From           To      Size
+         ----           --      ----
+        0x434     0x3'ffff  0x3'fbcc
+  0x2000'0094  0x2000'0097       0x4
+  0x2000'1098  0x2000'7fff    0x6f68
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address      Size
+          -------      ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x8a:
+          0x2000'0008  0x8a
+
+Copy (__iar_copy_init3)
+    1 source range, total size 0x8:
+                0x42c   0x8
+    1 destination range, total size 0x8:
+          0x2000'0000   0x8
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module            ro code  ro data  rw data
+    ------            -------  -------  -------
+command line/config:
+    -------------------------------------------
+    Total:
+
+C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\Obj: [1]
+    DEC_TO_HEX.o           62
+    main.o                468                 6
+    -------------------------------------------
+    Total:                530                 6
+
+dl7M_tln.a: [2]
+    exit.o                  4
+    low_level_init.o        4
+    rand.o                156        8      140
+    -------------------------------------------
+    Total:                164        8      140
+
+m7M_tls.a: [3]
+    fpinit_M.o             34
+    -------------------------------------------
+    Total:                 34
+
+rt7M_tl.a: [4]
+    cexit.o                10
+    cmain.o                30
+    copy_init3.o           46
+    cstartup_M.o           28
+    data_init.o            40
+    vector_table_M.o       66
+    zero_init3.o           58
+    -------------------------------------------
+    Total:                278
+
+shb_l.a: [5]
+    exit.o                 20
+    -------------------------------------------
+    Total:                 20
+
+    Gaps                    4        2
+    Linker created                  36    4'096
+-----------------------------------------------
+    Grand Total:        1'030       46    4'242
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                       Address  Size  Type      Object
+-----                       -------  ----  ----      ------
+.iar.init_table$$Base         0x3a4         --   Gb  - Linker created -
+.iar.init_table$$Limit        0x3c8         --   Gb  - Linker created -
+?main                         0x3c9        Code  Gb  cmain.o [4]
+COUNT                   0x2000'008c   0x4  Data  Gb  main.o [1]
+CSTACK$$Base            0x2000'0098         --   Gb  - Linker created -
+CSTACK$$Limit           0x2000'1098         --   Gb  - Linker created -
+Check_switch                   0x83  0x6c  Code  Gb  main.o [1]
+GET_OUT                 0x2000'0091   0x1  Data  Gb  main.o [1]
+Random_LED_On                  0x41  0x42  Code  Gb  main.o [1]
+Region$$Table$$Base           0x3a4         --   Gb  - Linker created -
+Region$$Table$$Limit          0x3c8         --   Gb  - Linker created -
+S_STATUS                0x2000'0090   0x1  Data  Gb  main.o [1]
+SysTick_Handler                0xef  0x42  Code  Gb  main.o [1]
+_Rand_idx               0x2000'0088   0x4  Data  Lc  rand.o [2]
+_Rand_rv                0x2000'0008  0x80  Data  Lc  rand.o [2]
+_Randinit               0x2000'0000   0x1  Data  Gb  rand.o [2]
+_Randseed               0x2000'0004   0x4  Data  Gb  rand.o [2]
+__cmain                       0x3c9        Code  Gb  cmain.o [4]
+__exit                        0x3fd  0x14  Code  Gb  exit.o [5]
+__iar_copy_init3              0x329  0x2e  Code  Gb  copy_init3.o [4]
+__iar_data_init3              0x359  0x28  Code  Gb  data_init.o [4]
+__iar_init_vfp                0x381        Code  Gb  fpinit_M.o [3]
+__iar_program_start           0x411        Code  Gb  cstartup_M.o [4]
+__iar_zero_init3              0x2ef  0x3a  Code  Gb  zero_init3.o [4]
+__low_level_init              0x3e7   0x4  Code  Gb  low_level_init.o [2]
+__vector_table                  0x0        Data  Gb  vector_table_M.o [4]
+_call_main                    0x3d5        Code  Gb  cmain.o [4]
+_exit                         0x3f1        Code  Gb  cexit.o [4]
+_main                         0x3df        Code  Gb  cmain.o [4]
+dec_to_hex                    0x2b1  0x3e  Code  Gb  DEC_TO_HEX.o [1]
+exit                          0x3eb   0x4  Code  Gb  exit.o [2]
+main                          0x131  0x8a  Code  Gb  main.o [1]
+rand                          0x215  0x8a  Code  Gb  rand.o [2]
+
+
+[1] = C:\Users\asus\Documents\IAR_EMBEDDED\Whack-A-Mole\Debug\Obj
+[2] = dl7M_tln.a
+[3] = m7M_tls.a
+[4] = rt7M_tl.a
+[5] = shb_l.a
+
+  1'030 bytes of readonly  code memory
+     46 bytes of readonly  data memory
+  4'242 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
