@@ -14,8 +14,9 @@ Software Used:
 
 #include "TM4C123GH6PM.h"              
 #include<stdlib.h>                  
-#include<stdbool.h>                   
-#include "DEC_TO_HEX.h"                 // library to convert decimal value into hexadecimal value
+#include<stdbool.h>  
+#include<time.h>
+#include "DEC_TO_HEX.h"                 
 
 // Functions used in programm
 void Check_switch(unsigned int value1, unsigned int value2);
@@ -29,12 +30,12 @@ int COUNT = 0;                    // To count the times the led blinks
 // This function is  used to generate any random value in between 0-7 and the corresponding LED will turn ON 
 void Random_LED_On(void)
 {             
-       unsigned int index1 = rand() % 4;                // Generating a random value between 0-4
-       unsigned int index2 = rand() % 4;
+       unsigned int index1 = rand() % 7;                // Generating a random value between 0-7
+       unsigned int index2 = rand() % 7;
        unsigned int value2 = 0x00;                      // At 1st stage value2 is 0x00
        unsigned int value1 = dec_to_hex(index1);        // Converting random generated decimal value into hexadecimal using dec_to_hex user defined library
-       if(COUNT > 10)                               // "a" counts the turns and as 10 turns completes 2nd stage start
-       value2 = dec_to_hex(index2);             // At 2nd stage two LED's simultaneously gets ON and value2 stores for 2nd LED
+       if(COUNT >= 10)                                  // "COUNT" counts the turns and as 10 turns completes 2nd stage start
+       value2 = dec_to_hex(index2);                     // At 2nd stage two LED's simultaneously gets ON and value2 stores for 2nd LED
        Check_switch(value1, value2);            
 }
 
@@ -54,7 +55,7 @@ void Check_switch(unsigned int value1, unsigned int value2)
         GPIOE -> DATA &= ~(value1);             // Make random LED OFF                    
         GPIOF -> DATA = 0X08;	                // Make Green LED ON to show user win 		
       }
-      if(COUNT > 5)                         // Start 2nd stage after 5 turns
+      if(COUNT >= 10)                         // Start 2nd stage after 10 turns
       {
         if( (!(GPIOB -> DATA & value2)) )       // If correct switch pressed for 2nd LED when 2nd stage starts        
         {
@@ -74,15 +75,16 @@ void Check_switch(unsigned int value1, unsigned int value2)
 // Control will transfer here when Systick interrupt generates SYSTICK_HANDLER Interrupt Function 
 void SysTick_Handler(void)                      
 {
+      
       GPIOE -> DATA = 0x00;
       SysTick -> CTRL = 0x00;
       if(S_STATUS == false)            // If no switch or false switch pressed
           GPIOF -> DATA = 0x02;        // Red LED turns ON to show user Loose   
-			
+      
       SysTick -> LOAD = 15999999;       //1sec delay before next event    
       SysTick -> VAL = 0;             
       SysTick -> CTRL = 5; 
-      if(SysTick -> CTRL & 0x10000) 
+      while(!(SysTick -> CTRL == 0x10000)); 
     
       GPIOF -> DATA = 0X00;           // Make all LED's Off
       S_STATUS = false;               // Make status again false  
@@ -111,17 +113,13 @@ int main()
       GPIOF -> DEN |= 0x1A;               // Green, Red LED and Switch 1 are digitally Enabled
       GPIOF -> PUR |= 0x10;               // Internal Pull-up resistor enabled on Switch 1
       
-      while(1)
-      {
-        if(! (GPIOF -> DATA & 0x10) )           // To turn ON the game press Switch 1
-          break;
-      }
-    
-      while(1)
+      srand(time(0));
+      
+      while( (GPIOF -> DATA == 0x10) );           // To turn ON the game press Switch 1
+      
+      while(COUNT < 20)
       {
        Random_LED_On();         // Function called to make random led on
        COUNT++;
-       if(COUNT > 20)           
-         break;
       }
 }
